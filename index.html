@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokémon Clicker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Pokémon Clicker</h1>
+<h2>PokéPuntos: <span id="score">0</span></h2>
+
+<!-- Códigos secretos en tercer plano -->
+<div id="codesPanel" class="panel panel-purple">
+    <h2>Códigos Secretos</h2>
+    <input type="text" id="codeInput" placeholder="Introduce el código">
+    <button id="redeemCode">Canjear</button>
+    <p id="codeMessage"></p>
+</div>
+
+<div class="container">
+
+    <!-- CLICK MANUAL: Pokémon al centro -->
+    <div class="clicker-container">
+        <img id="pokemon" 
+            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
+        <h3>Puntos por clic: <span id="ppc">1</span></h3>
+    </div>
+
+    <!-- MEJORAS -->
+    <div class="upgrades-container">
+
+        <!-- Click manual -->
+        <div class="panel panel-blue">
+            <h2>Mejoras Manuales</h2>
+            <div id="upgrade1" class="upgrade">Mejora 1 (+1 por clic) — 50 puntos</div>
+            <div id="upgrade2" class="upgrade">Mejora 2 (+2 por clic) — 150 puntos</div>
+            <div id="upgrade3" class="upgrade">Mejora 3 (+4 por clic) — 300 puntos</div>
+            <div id="upgrade4" class="upgrade">Mejora 4 (+8 por clic) — 600 puntos</div>
+            <div id="upgrade5" class="upgrade">Mejora 5 (+16 por clic) — 1500 puntos</div>
+            <div id="upgrade6" class="upgrade">Mejora 6 (+30 por clic) — 3000 puntos</div>
+            <div id="upgrade7" class="upgrade">Mejora 7 (+60 por clic) — 8000 puntos</div>
+            <div id="upgrade8" class="upgrade">Mejora 8 (+120 por clic) — 20000 puntos</div>
+            <div id="upgrade9" class="upgrade">Mejora 9 (+250 por clic) — 40000 puntos</div>
+            <div id="upgrade10" class="upgrade">Mejora 10 (+500 por clic) — 100000 puntos</div>
+        </div>
+
+        <!-- Click automático -->
+        <div class="panel panel-green">
+            <h2>Click Automático</h2>
+            <h3>Puntos por segundo: <span id="pps">0</span></h3>
+            <div id="auto1" class="upgrade">Auto 1 (+1/s) — 100 puntos</div>
+            <div id="auto2" class="upgrade">Auto 2 (+3/s) — 300 puntos</div>
+            <div id="auto3" class="upgrade">Auto 3 (+6/s) — 800 puntos</div>
+            <div id="auto4" class="upgrade">Auto 4 (+12/s) — 2000 puntos</div>
+            <div id="auto5" class="upgrade">Auto 5 (+25/s) — 5000 puntos</div>
+            <div id="auto6" class="upgrade">Auto 6 (+40/s) — 9000 puntos</div>
+            <div id="auto7" class="upgrade">Auto 7 (+80/s) — 20000 puntos</div>
+            <div id="auto8" class="upgrade">Auto 8 (+160/s) — 50000 puntos</div>
+            <div id="auto9" class="upgrade">Auto 9 (+300/s) — 100000 puntos</div>
+            <div id="auto10" class="upgrade">Auto 10 (+600/s) — 200000 puntos</div>
+        </div>
+
+        <!-- Pokémon aliados -->
+        <div class="panel panel-yellow">
+            <h2>Pokémon Aliados</h2>
+            <div id="ally1" class="ally">Pikachu: +1 clic automático — 500 puntos</div>
+            <div id="ally2" class="ally">Bulbasaur: +5 monedas/s — 1500 puntos</div>
+            <div id="ally3" class="ally">Charmander: +10 clic — 3000 puntos</div>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
