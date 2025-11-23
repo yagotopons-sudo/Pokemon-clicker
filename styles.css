@@ -10,24 +10,6 @@ body {
 h1 { font-size: 2em; }
 h2 { font-size: 1.5em; }
 
-/* MENSAJE INTRO */
-.intro-box {
-    background: rgba(255, 230, 150, 0.9);
-    padding: 15px;
-    border-radius: 10px;
-    margin: 10px auto;
-    width: 80%;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    transition: opacity 1s ease;
-}
-
-.fade-out {
-    opacity: 0;
-}
-
-/* CONTENEDORES */
 .container {
     display: flex;
     flex-wrap: wrap;
@@ -59,7 +41,6 @@ h2 { font-size: 1.5em; }
     z-index: 2;
 }
 
-/* PANELES */
 .panel {
     background: rgba(0, 0, 0, 0.35);
     padding: 10px;
@@ -73,7 +54,6 @@ h2 { font-size: 1.5em; }
 .panel-yellow { border: 3px solid #ffdd55; }
 .panel-purple { border: 3px solid #aa44ff; }
 
-/* OPCIONES */
 .upgrade, .ally {
     background: rgba(0,0,0,0.5);
     margin: 5px 0;
@@ -83,10 +63,8 @@ h2 { font-size: 1.5em; }
 }
 
 .upgrade:hover, .ally:hover { background: rgba(255,255,255,0.15); }
-
 .disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* PANEL DE CÓDIGOS */
 #codesPanel {
     position: fixed;
     top: 10px;
@@ -114,8 +92,48 @@ h2 { font-size: 1.5em; }
 
 #redeemCode:hover { background-color: #cc66ff; }
 
-/* RESPONSIVE */
+/* Guardado */
+#savePanel {
+    margin-top: 10px;
+}
+
+#savePanel button {
+    padding: 8px 12px;
+    margin: 4px;
+    border: none;
+    background: #008cff;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#savePanel button:hover {
+    background: #53aaff;
+}
+
+/* Media queries para tablets y móviles */
 @media screen and (max-width: 768px) {
     .container { flex-direction: column; align-items: center; }
     .upgrades-container { flex-direction: column; }
+}
+
+.intro-box {
+    background: rgba(255, 230, 150, 0.9);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 10px auto;
+    width: 80%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    animation: fadeIn 0.8s ease;
+}
+
+/* Animación desaparición */
+.fade-out {
+    animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; }
 }
