@@ -48,7 +48,7 @@ const allies = [
     { id: "ally3", cost: 3000, effect: () => ppc += 10, unlocked: false }
 ];
 
-// Ocultar bloqueados
+// Mostrar/Ocultar mejoras
 function hideLockedUpgrades() {
     [...clickUpgrades, ...autoUpgrades, ...allies].forEach(up=>{
         const el = document.getElementById(up.id);
@@ -57,7 +57,6 @@ function hideLockedUpgrades() {
 }
 hideLockedUpgrades();
 
-// Mostrar desbloqueados
 function showUnlockedUpgrades() {
     [...clickUpgrades, ...autoUpgrades, ...allies].forEach(up=>{
         const el = document.getElementById(up.id);
@@ -91,7 +90,7 @@ initUpgradeEvents(clickUpgrades);
 initUpgradeEvents(autoUpgrades);
 initUpgradeEvents(allies);
 
-// Click automático cada segundo
+// Click automático
 setInterval(()=>{ score += pps; updateScreen(); },1000);
 
 function updateScreen(){
@@ -101,7 +100,6 @@ function updateScreen(){
     updateLockedStyles();
 }
 
-// Estilos grises si no hay dinero
 function updateLockedStyles(){
     [...clickUpgrades, ...autoUpgrades, ...allies].forEach(up=>{
         const el = document.getElementById(up.id);
@@ -110,20 +108,8 @@ function updateLockedStyles(){
     });
 }
 
-// Códigos secretos
-const codes = {
-    "MILLON": 100000,
-    "GOLD": 50000,
-    "RAICHU": 10000,
-    "PIKACHU": 5000,
-    "CHARIZARD": 20000,
-    "BULBASAUR": 2000,
-    "SQUIRTLE": 2000,
-    "MASTER": 50000,
-    "LEGEND": 75000,
-    "ADMIN": 1e100 // broma enorme
-};
-
+/* Códigos secretos */
+const codes = { "MILLON": 100000, "GOLD": 50000, "RAICHU": 10000, "PIKACHU": 5000 };
 const codeInput = document.getElementById("codeInput");
 const redeemButton = document.getElementById("redeemCode");
 const codeMessage = document.getElementById("codeMessage");
@@ -132,7 +118,7 @@ redeemButton.addEventListener("click", ()=>{
     const code = codeInput.value.toUpperCase().trim();
     if(codes[code]){
         score += codes[code];
-        codeMessage.textContent = `Código correcto! Has recibido ${codes[code]} puntos!`;
+        codeMessage.textContent = `Código correcto! +${codes[code]} puntos`;
         codeMessage.style.color = "lightgreen";
         updateScreen();
         codeInput.value = "";
@@ -142,65 +128,47 @@ redeemButton.addEventListener("click", ()=>{
     }
 });
 
-/* ================================
-   SISTEMA DE GUARDADO
+/* ==============================
+      GUARDADO FUNCIONAL
 ================================= */
 
-// GUARDAR PARTIDA
 function saveGame() {
-    const data = {
-        score,
-        ppc,
-        pps,
-        clickUpgrades,
-        autoUpgrades,
-        allies
+    const saveData = {
+        score, ppc, pps,
+        clickUnlocked: clickUpgrades.map(u=>u.unlocked),
+        autoUnlocked: autoUpgrades.map(u=>u.unlocked),
+        alliesUnlocked: allies.map(a=>a.unlocked)
     };
-    localStorage.setItem("pokeClickerSave", JSON.stringify(data));
-
+    localStorage.setItem("pokeClickerSave", JSON.stringify(saveData));
     const msg = document.getElementById("saveMessage");
     msg.textContent = "¡Partida guardada!";
     msg.style.color = "lightgreen";
-
-    setTimeout(() => msg.textContent = "", 2000);
+    setTimeout(()=>msg.textContent="",2000);
 }
 
-// CARGAR PARTIDA
 function loadGame() {
-    const data = JSON.parse(localStorage.getItem("pokeClickerSave"));
-    if (!data) return;
+    const saveData = JSON.parse(localStorage.getItem("pokeClickerSave"));
+    if(!saveData) return;
 
-    score = data.score;
-    ppc = data.ppc;
-    pps = data.pps;
+    score = saveData.score;
+    ppc = saveData.ppc;
+    pps = saveData.pps;
 
-    data.clickUpgrades.forEach((u, i) => clickUpgrades[i] = u);
-    data.autoUpgrades.forEach((u, i) => autoUpgrades[i] = u);
-    data.allies.forEach((u, i) => allies[i] = u);
+    clickUpgrades.forEach((u,i)=>u.unlocked = saveData.clickUnlocked[i]);
+    autoUpgrades.forEach((u,i)=>u.unlocked = saveData.autoUnlocked[i]);
+    allies.forEach((a,i)=>a.unlocked = saveData.alliesUnlocked[i]);
 
     showUnlockedUpgrades();
     updateScreen();
 }
 
-// BORRAR PARTIDA
 function deleteSave() {
     localStorage.removeItem("pokeClickerSave");
-
-    const msg = document.getElementById("saveMessage");
-    msg.textContent = "Guardado eliminado.";
-    msg.style.color = "red";
-
-    setTimeout(() => msg.textContent = "", 2000);
-
     location.reload();
 }
 
-// BOTONES
 document.getElementById("saveGame").addEventListener("click", saveGame);
 document.getElementById("deleteSave").addEventListener("click", deleteSave);
 
-// CARGAR AUTOMÁTICAMENTE AL INICIAR
 loadGame();
-
-// AUTO-GUARDADO CADA 5s
-setInterval(saveGame, 5000);
+setInterval(saveGame,5000); // auto-guardar
