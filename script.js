@@ -1,5 +1,5 @@
 // ===============================
-// VARIABLES
+// VARIABLES PRINCIPALES
 // ===============================
 let score = 0;
 let ppc = 1;
@@ -64,21 +64,12 @@ const autoUpgrades = [
 // ===============================
 // MOSTRAR / OCULTAR MEJORAS
 // ===============================
-function hideLocked() {
+function updateVisibility() {
     [...clickUpgrades, ...autoUpgrades].forEach(up => {
         const el = document.getElementById(up.id);
-        if (!up.unlocked) el.style.display = "none";
+        el.style.display = up.unlocked ? "block" : "none";
     });
 }
-
-function showUnlocked() {
-    [...clickUpgrades, ...autoUpgrades].forEach(up => {
-        const el = document.getElementById(up.id);
-        if (up.unlocked) el.style.display = "block";
-    });
-}
-
-hideLocked();
 
 // ===============================
 // COMPRA DE MEJORAS
@@ -95,10 +86,13 @@ function initUpgradeEvents(list) {
             if (list === clickUpgrades) ppc += up.amount;
             else pps += up.amount;
 
-            if (list[index + 1]) list[index + 1].unlocked = true;
+            // Desbloquear la siguiente mejora
+            if (list[index + 1]) {
+                list[index + 1].unlocked = true;
+            }
 
             updateScreen();
-            showUnlocked();
+            updateVisibility();
         });
     });
 }
@@ -167,7 +161,7 @@ function showMessage(text, color) {
 }
 
 // ===============================
-// AUTOSAVE
+// AUTOGUARDADO (cada 5 segundos)
 // ===============================
 setInterval(() => {
     localStorage.setItem("pokemonSave", JSON.stringify({
@@ -180,11 +174,15 @@ setInterval(() => {
 }, 5000);
 
 // ===============================
-// CARGAR PARTIDA
+// CARGA DE PARTIDA
 // ===============================
 window.addEventListener("load", () => {
     const data = JSON.parse(localStorage.getItem("pokemonSave"));
-    if (!data) return;
+    if (!data) {
+        updateVisibility();
+        updateScreen();
+        return;
+    }
 
     score = data.score || 0;
     ppc = data.ppc || 1;
@@ -196,7 +194,6 @@ window.addEventListener("load", () => {
     if (data.autoUnlocks)
         data.autoUnlocks.forEach((val, i) => autoUpgrades[i].unlocked = val);
 
-    hideLocked();
-    showUnlocked();
+    updateVisibility();
     updateScreen();
 });
