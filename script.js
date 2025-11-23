@@ -1,3 +1,4 @@
+// Variables principales
 let score = 0;
 let ppc = 1;
 let pps = 0;
@@ -131,7 +132,6 @@ redeemButton.addEventListener("click", ()=>{
 /* ==============================
       GUARDADO FUNCIONAL
 ================================= */
-
 function saveGame() {
     const saveData = {
         score, ppc, pps,
@@ -141,9 +141,11 @@ function saveGame() {
     };
     localStorage.setItem("pokeClickerSave", JSON.stringify(saveData));
     const msg = document.getElementById("saveMessage");
-    msg.textContent = "¡Partida guardada!";
-    msg.style.color = "lightgreen";
-    setTimeout(()=>msg.textContent="",2000);
+    if(msg) {
+        msg.textContent = "¡Partida guardada!";
+        msg.style.color = "lightgreen";
+        setTimeout(()=>msg.textContent="",2000);
+    }
 }
 
 function loadGame() {
@@ -167,8 +169,12 @@ function deleteSave() {
     location.reload();
 }
 
-document.getElementById("saveGame").addEventListener("click", saveGame);
-document.getElementById("deleteSave").addEventListener("click", deleteSave);
+// Solo agregar eventos si los elementos existen
+const saveBtn = document.getElementById("saveGame");
+if(saveBtn) saveBtn.addEventListener("click", saveGame);
+
+const deleteBtn = document.getElementById("deleteSave");
+if(deleteBtn) deleteBtn.addEventListener("click", deleteSave);
 
 loadGame();
 setInterval(saveGame,5000); // auto-guardar
