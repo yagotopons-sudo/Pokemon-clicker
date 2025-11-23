@@ -7,12 +7,13 @@ const ppcEl = document.getElementById("ppc");
 const ppsEl = document.getElementById("pps");
 const pokemon = document.getElementById("pokemon");
 
+// CLICK MANUAL
 pokemon.addEventListener("click", () => {
     score += ppc;
     updateScreen();
 });
 
-/* --- MEJORAS MANUALES --- */
+// Mejoras manuales
 const clickUpgrades = [
     { id: "upgrade1", cost: 50, amount: 1, unlocked: true },
     { id: "upgrade2", cost: 150, amount: 2, unlocked: false },
@@ -26,7 +27,7 @@ const clickUpgrades = [
     { id: "upgrade10", cost: 100000, amount: 500, unlocked: false }
 ];
 
-/* --- MEJORAS AUTOMÁTICAS --- */
+// Mejoras automáticas
 const autoUpgrades = [
     { id: "auto1", cost: 100, amount: 1, unlocked: true },
     { id: "auto2", cost: 300, amount: 3, unlocked: false },
@@ -40,78 +41,76 @@ const autoUpgrades = [
     { id: "auto10", cost: 200000, amount: 600, unlocked: false }
 ];
 
-/* --- ALIADOS --- */
+// Pokémon aliados
 const allies = [
     { id: "ally1", cost: 500, effect: () => pps += 1, unlocked: true },
     { id: "ally2", cost: 1500, effect: () => pps += 5, unlocked: false },
     { id: "ally3", cost: 3000, effect: () => ppc += 10, unlocked: false }
 ];
 
-/* OCULTAR LOS NO DESBLOQUEADOS */
+// Ocultar bloqueados
 function hideLockedUpgrades() {
-    [...clickUpgrades, ...autoUpgrades, ...allies].forEach(up => {
+    [...clickUpgrades, ...autoUpgrades, ...allies].forEach(up=>{
         const el = document.getElementById(up.id);
-        if (!up.unlocked) el.style.display = "none";
+        if(!up.unlocked) el.style.display="none";
     });
 }
 hideLockedUpgrades();
 
-/* MOSTRAR DESBLOQUEADOS */
+// Mostrar desbloqueados
 function showUnlockedUpgrades() {
-    [...clickUpgrades, ...autoUpgrades, ...allies].forEach(up => {
+    [...clickUpgrades, ...autoUpgrades, ...allies].forEach(up=>{
         const el = document.getElementById(up.id);
-        if (up.unlocked) el.style.display = "block";
+        if(up.unlocked) el.style.display="block";
     });
 }
 
-/* EVENTOS */
-function initUpgradeEvents(list) {
-    list.forEach((up, index) => {
+// Eventos de compra
+function initUpgradeEvents(list){
+    list.forEach((up,index)=>{
         const el = document.getElementById(up.id);
-        el.addEventListener("click", () => {
-            if (!up.unlocked || score < up.cost) return;
+        el.addEventListener("click",()=>{
+            if(!up.unlocked) return;
+            if(score < up.cost) return;
 
             score -= up.cost;
 
-            if (list === clickUpgrades) ppc += up.amount;
-            else if (list === autoUpgrades) pps += up.amount;
-            else if (list === allies) up.effect();
+            if(list===clickUpgrades) ppc += up.amount;
+            else if(list===autoUpgrades) pps += up.amount;
+            else if(list===allies) up.effect();
 
-            if (list[index + 1]) list[index + 1].unlocked = true;
+            if(list[index+1]) list[index+1].unlocked = true;
 
             updateScreen();
             showUnlockedUpgrades();
         });
     });
 }
+
 initUpgradeEvents(clickUpgrades);
 initUpgradeEvents(autoUpgrades);
 initUpgradeEvents(allies);
 
-/* CLICK AUTOMÁTICO */
-setInterval(() => {
-    score += pps;
-    updateScreen();
-}, 1000);
+// Click automático cada segundo
+setInterval(()=>{ score += pps; updateScreen(); },1000);
 
-/* ACTUALIZAR PANTALLA */
-function updateScreen() {
+function updateScreen(){
     scoreEl.textContent = score;
     ppcEl.textContent = ppc;
     ppsEl.textContent = pps;
     updateLockedStyles();
 }
 
-/* DESACTIVAR POR FALTA DE DINERO */
-function updateLockedStyles() {
-    [...clickUpgrades, ...autoUpgrades, ...allies].forEach(up => {
+// Estilos grises si no hay dinero
+function updateLockedStyles(){
+    [...clickUpgrades, ...autoUpgrades, ...allies].forEach(up=>{
         const el = document.getElementById(up.id);
-        if (score < up.cost) el.classList.add("disabled");
+        if(score < up.cost) el.classList.add("disabled");
         else el.classList.remove("disabled");
     });
 }
 
-/* CÓDIGOS SECRETOS */
+// Códigos secretos
 const codes = {
     "MILLON": 100000,
     "GOLD": 50000,
@@ -121,34 +120,87 @@ const codes = {
     "BULBASAUR": 2000,
     "SQUIRTLE": 2000,
     "MASTER": 50000,
-    "LEGEND": 75000
+    "LEGEND": 75000,
+    "ADMIN": 1e100 // broma enorme
 };
 
 const codeInput = document.getElementById("codeInput");
 const redeemButton = document.getElementById("redeemCode");
 const codeMessage = document.getElementById("codeMessage");
 
-redeemButton.addEventListener("click", () => {
+redeemButton.addEventListener("click", ()=>{
     const code = codeInput.value.toUpperCase().trim();
-    if (codes[code]) {
+    if(codes[code]){
         score += codes[code];
-        codeMessage.textContent = 
-            `¡Código correcto! Has recibido ${codes[code]} puntos.`;
+        codeMessage.textContent = `Código correcto! Has recibido ${codes[code]} puntos!`;
         codeMessage.style.color = "lightgreen";
         updateScreen();
         codeInput.value = "";
     } else {
-        codeMessage.textContent = "Código incorrecto.";
+        codeMessage.textContent = "Código incorrecto!";
         codeMessage.style.color = "red";
     }
 });
 
-/* --- DESAPARECER MENSAJE A LOS 30s --- */
-setTimeout(() => {
-    const intro = document.getElementById("introMessage");
-    if (intro) {
-        intro.classList.add("fade-out");
-        setTimeout(() => intro.remove(), 1000);
-    }
-}, 30000);
+/* ================================
+   SISTEMA DE GUARDADO
+================================= */
 
+// GUARDAR PARTIDA
+function saveGame() {
+    const data = {
+        score,
+        ppc,
+        pps,
+        clickUpgrades,
+        autoUpgrades,
+        allies
+    };
+    localStorage.setItem("pokeClickerSave", JSON.stringify(data));
+
+    const msg = document.getElementById("saveMessage");
+    msg.textContent = "¡Partida guardada!";
+    msg.style.color = "lightgreen";
+
+    setTimeout(() => msg.textContent = "", 2000);
+}
+
+// CARGAR PARTIDA
+function loadGame() {
+    const data = JSON.parse(localStorage.getItem("pokeClickerSave"));
+    if (!data) return;
+
+    score = data.score;
+    ppc = data.ppc;
+    pps = data.pps;
+
+    data.clickUpgrades.forEach((u, i) => clickUpgrades[i] = u);
+    data.autoUpgrades.forEach((u, i) => autoUpgrades[i] = u);
+    data.allies.forEach((u, i) => allies[i] = u);
+
+    showUnlockedUpgrades();
+    updateScreen();
+}
+
+// BORRAR PARTIDA
+function deleteSave() {
+    localStorage.removeItem("pokeClickerSave");
+
+    const msg = document.getElementById("saveMessage");
+    msg.textContent = "Guardado eliminado.";
+    msg.style.color = "red";
+
+    setTimeout(() => msg.textContent = "", 2000);
+
+    location.reload();
+}
+
+// BOTONES
+document.getElementById("saveGame").addEventListener("click", saveGame);
+document.getElementById("deleteSave").addEventListener("click", deleteSave);
+
+// CARGAR AUTOMÁTICAMENTE AL INICIAR
+loadGame();
+
+// AUTO-GUARDADO CADA 5s
+setInterval(saveGame, 5000);
