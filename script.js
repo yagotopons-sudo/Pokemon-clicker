@@ -210,4 +210,3 @@ window.addEventListener("load", () => {
     updateScreen();
     showUnlockedUpgrades();
 });
-
