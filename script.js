@@ -170,15 +170,22 @@ redeemButton.addEventListener("click", () => {
     const code = codeInput.value.toUpperCase().trim();
     if (codes[code]) {
         score += codes[code];
-        codeMessage.textContent = `Código correcto! Has recibido ${codes[code]} puntos!`;
-        codeMessage.style.color = "lightgreen";
+        showMessage(`Código correcto! Has recibido ${codes[code]} puntos!`, "lightgreen");
         updateScreen();
         codeInput.value = "";
     } else {
-        codeMessage.textContent = "Código incorrecto!";
-        codeMessage.style.color = "red";
+        showMessage("Código incorrecto!", "red");
     }
 });
+
+// ==========================
+// MENSAJE VISUAL
+// ==========================
+function showMessage(text, color = "lightgreen") {
+    codeMessage.textContent = text;
+    codeMessage.style.color = color;
+    setTimeout(() => { codeMessage.textContent = ""; }, 3000);
+}
 
 // ==========================
 // AUTOSAVE (cada 5 segundos)
@@ -192,6 +199,7 @@ setInterval(() => {
         autoUpgrades: autoUpgrades.map(u => u.unlocked)
     };
     localStorage.setItem("pokemonClickerSave", JSON.stringify(saveData));
+    showMessage("Partida guardada automáticamente", "yellow");
 }, 5000);
 
 // ==========================
@@ -206,6 +214,8 @@ window.addEventListener("load", () => {
 
         saved.clickUpgrades.forEach((unlocked, i) => clickUpgrades[i].unlocked = unlocked);
         saved.autoUpgrades.forEach((unlocked, i) => autoUpgrades[i].unlocked = unlocked);
+
+        showMessage("Partida cargada correctamente", "lightblue");
     }
     updateScreen();
     showUnlockedUpgrades();
