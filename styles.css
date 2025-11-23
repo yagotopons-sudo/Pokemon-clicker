@@ -65,13 +65,24 @@ h2 { font-size: 1.5em; }
 .upgrade:hover, .ally:hover { background: rgba(255,255,255,0.15); }
 .disabled { opacity: 0.5; cursor: not-allowed; }
 
+/* Panel códigos */
 #codesPanel {
     position: fixed;
     top: 10px;
     left: 10px;
     width: 220px;
-    z-index: 1;
-    opacity: 0.8;
+    z-index: 10;
+    opacity: 0.9;
+}
+
+/* Panel guardado */
+#saveControls {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 200px;
+    z-index: 10;
+    opacity: 0.9;
 }
 
 #codeInput {
@@ -92,48 +103,7 @@ h2 { font-size: 1.5em; }
 
 #redeemCode:hover { background-color: #cc66ff; }
 
-/* Guardado */
-#savePanel {
-    margin-top: 10px;
-}
-
-#savePanel button {
-    padding: 8px 12px;
-    margin: 4px;
-    border: none;
-    background: #008cff;
-    color: white;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-#savePanel button:hover {
-    background: #53aaff;
-}
-
-/* Media queries para tablets y móviles */
 @media screen and (max-width: 768px) {
     .container { flex-direction: column; align-items: center; }
     .upgrades-container { flex-direction: column; }
-}
-
-.intro-box {
-    background: rgba(255, 230, 150, 0.9);
-    padding: 15px;
-    border-radius: 10px;
-    margin: 10px auto;
-    width: 80%;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    animation: fadeIn 0.8s ease;
-}
-
-/* Animación desaparición */
-.fade-out {
-    animation: fadeOut 1s forwards;
-}
-
-@keyframes fadeOut {
-    to { opacity: 0; }
 }
