@@ -1,4 +1,6 @@
-// Variables principales
+// ==========================
+// VARIABLES PRINCIPALES
+// ==========================
 let score = 0;
 let ppc = 1;
 let pps = 0;
@@ -8,13 +10,17 @@ const ppcEl = document.getElementById("ppc");
 const ppsEl = document.getElementById("pps");
 const pokemon = document.getElementById("pokemon");
 
+// ==========================
 // CLICK MANUAL
+// ==========================
 pokemon.addEventListener("click", () => {
     score += ppc;
     updateScreen();
 });
 
-// Mejoras manuales
+// ==========================
+// MEJORAS MANUALES (20)
+// ==========================
 const clickUpgrades = [
     { id: "upgrade1", cost: 50, amount: 1, unlocked: true },
     { id: "upgrade2", cost: 150, amount: 2, unlocked: false },
@@ -25,10 +31,22 @@ const clickUpgrades = [
     { id: "upgrade7", cost: 8000, amount: 60, unlocked: false },
     { id: "upgrade8", cost: 20000, amount: 120, unlocked: false },
     { id: "upgrade9", cost: 40000, amount: 250, unlocked: false },
-    { id: "upgrade10", cost: 100000, amount: 500, unlocked: false }
+    { id: "upgrade10", cost: 100000, amount: 500, unlocked: false },
+    { id: "upgrade11", cost: 200000, amount: 1000, unlocked: false },
+    { id: "upgrade12", cost: 400000, amount: 2000, unlocked: false },
+    { id: "upgrade13", cost: 800000, amount: 4000, unlocked: false },
+    { id: "upgrade14", cost: 1600000, amount: 8000, unlocked: false },
+    { id: "upgrade15", cost: 3200000, amount: 16000, unlocked: false },
+    { id: "upgrade16", cost: 6400000, amount: 32000, unlocked: false },
+    { id: "upgrade17", cost: 12800000, amount: 64000, unlocked: false },
+    { id: "upgrade18", cost: 25600000, amount: 128000, unlocked: false },
+    { id: "upgrade19", cost: 51200000, amount: 256000, unlocked: false },
+    { id: "upgrade20", cost: 100000000, amount: 500000, unlocked: false }
 ];
 
-// Mejoras automáticas
+// ==========================
+// MEJORAS AUTOMÁTICAS (20)
+// ==========================
 const autoUpgrades = [
     { id: "auto1", cost: 100, amount: 1, unlocked: true },
     { id: "auto2", cost: 300, amount: 3, unlocked: false },
@@ -39,47 +57,56 @@ const autoUpgrades = [
     { id: "auto7", cost: 20000, amount: 80, unlocked: false },
     { id: "auto8", cost: 50000, amount: 160, unlocked: false },
     { id: "auto9", cost: 100000, amount: 300, unlocked: false },
-    { id: "auto10", cost: 200000, amount: 600, unlocked: false }
+    { id: "auto10", cost: 200000, amount: 600, unlocked: false },
+    { id: "auto11", cost: 400000, amount: 1200, unlocked: false },
+    { id: "auto12", cost: 800000, amount: 2400, unlocked: false },
+    { id: "auto13", cost: 1600000, amount: 4800, unlocked: false },
+    { id: "auto14", cost: 3200000, amount: 9600, unlocked: false },
+    { id: "auto15", cost: 6400000, amount: 19200, unlocked: false },
+    { id: "auto16", cost: 12800000, amount: 38400, unlocked: false },
+    { id: "auto17", cost: 25600000, amount: 76800, unlocked: false },
+    { id: "auto18", cost: 51200000, amount: 153600, unlocked: false },
+    { id: "auto19", cost: 102400000, amount: 307200, unlocked: false },
+    { id: "auto20", cost: 200000000, amount: 600000, unlocked: false }
 ];
 
-// Pokémon aliados
-const allies = [
-    { id: "ally1", cost: 500, effect: () => pps += 1, unlocked: true },
-    { id: "ally2", cost: 1500, effect: () => pps += 5, unlocked: false },
-    { id: "ally3", cost: 3000, effect: () => ppc += 10, unlocked: false }
-];
-
-// Mostrar/Ocultar mejoras
+// ==========================
+// OCULTAR BLOQUEADOS
+// ==========================
 function hideLockedUpgrades() {
-    [...clickUpgrades, ...autoUpgrades, ...allies].forEach(up=>{
+    [...clickUpgrades, ...autoUpgrades].forEach(up => {
         const el = document.getElementById(up.id);
-        if(!up.unlocked) el.style.display="none";
+        if (!up.unlocked) el.style.display = "none";
     });
 }
 hideLockedUpgrades();
 
+// ==========================
+// MOSTRAR DESBLOQUEADOS
+// ==========================
 function showUnlockedUpgrades() {
-    [...clickUpgrades, ...autoUpgrades, ...allies].forEach(up=>{
+    [...clickUpgrades, ...autoUpgrades].forEach(up => {
         const el = document.getElementById(up.id);
-        if(up.unlocked) el.style.display="block";
+        if (up.unlocked) el.style.display = "block";
     });
 }
 
-// Eventos de compra
-function initUpgradeEvents(list){
-    list.forEach((up,index)=>{
+// ==========================
+// EVENTOS DE COMPRA
+// ==========================
+function initUpgradeEvents(list) {
+    list.forEach((up, index) => {
         const el = document.getElementById(up.id);
-        el.addEventListener("click",()=>{
-            if(!up.unlocked) return;
-            if(score < up.cost) return;
+        el.addEventListener("click", () => {
+            if (!up.unlocked) return;
+            if (score < up.cost) return;
 
             score -= up.cost;
 
-            if(list===clickUpgrades) ppc += up.amount;
-            else if(list===autoUpgrades) pps += up.amount;
-            else if(list===allies) up.effect();
+            if (list === clickUpgrades) ppc += up.amount;
+            else if (list === autoUpgrades) pps += up.amount;
 
-            if(list[index+1]) list[index+1].unlocked = true;
+            if (list[index + 1]) list[index + 1].unlocked = true;
 
             updateScreen();
             showUnlockedUpgrades();
@@ -89,37 +116,61 @@ function initUpgradeEvents(list){
 
 initUpgradeEvents(clickUpgrades);
 initUpgradeEvents(autoUpgrades);
-initUpgradeEvents(allies);
 
-// Click automático
-setInterval(()=>{ score += pps; updateScreen(); },1000);
+// ==========================
+// CLICK AUTOMÁTICO CADA SEGUNDO
+// ==========================
+setInterval(() => {
+    score += pps;
+    updateScreen();
+}, 1000);
 
-function updateScreen(){
+// ==========================
+// ACTUALIZAR PANTALLA
+// ==========================
+function updateScreen() {
     scoreEl.textContent = score;
     ppcEl.textContent = ppc;
     ppsEl.textContent = pps;
     updateLockedStyles();
 }
 
-function updateLockedStyles(){
-    [...clickUpgrades, ...autoUpgrades, ...allies].forEach(up=>{
+// ==========================
+// ESTILOS BLOQUEADOS
+// ==========================
+function updateLockedStyles() {
+    [...clickUpgrades, ...autoUpgrades].forEach(up => {
         const el = document.getElementById(up.id);
-        if(score < up.cost) el.classList.add("disabled");
+        if (score < up.cost) el.classList.add("disabled");
         else el.classList.remove("disabled");
     });
 }
 
-/* Códigos secretos */
-const codes = { "MILLON": 100000, "GOLD": 50000, "RAICHU": 10000, "PIKACHU": 5000 };
+// ==========================
+// CÓDIGOS SECRETOS
+// ==========================
+const codes = {
+    "MILLON": 100000,
+    "GOLD": 50000,
+    "RAICHU": 10000,
+    "PIKACHU": 5000,
+    "CHARIZARD": 20000,
+    "BULBASAUR": 2000,
+    "SQUIRTLE": 2000,
+    "MASTER": 50000,
+    "LEGEND": 75000,
+    "ADMIN": 1000000000000000000000
+};
+
 const codeInput = document.getElementById("codeInput");
 const redeemButton = document.getElementById("redeemCode");
 const codeMessage = document.getElementById("codeMessage");
 
-redeemButton.addEventListener("click", ()=>{
+redeemButton.addEventListener("click", () => {
     const code = codeInput.value.toUpperCase().trim();
-    if(codes[code]){
+    if (codes[code]) {
         score += codes[code];
-        codeMessage.textContent = `Código correcto! +${codes[code]} puntos`;
+        codeMessage.textContent = `Código correcto! Has recibido ${codes[code]} puntos!`;
         codeMessage.style.color = "lightgreen";
         updateScreen();
         codeInput.value = "";
@@ -129,52 +180,33 @@ redeemButton.addEventListener("click", ()=>{
     }
 });
 
-/* ==============================
-      GUARDADO FUNCIONAL
-================================= */
-function saveGame() {
+// ==========================
+// AUTOSAVE (cada 5 segundos)
+// ==========================
+setInterval(() => {
     const saveData = {
-        score, ppc, pps,
-        clickUnlocked: clickUpgrades.map(u=>u.unlocked),
-        autoUnlocked: autoUpgrades.map(u=>u.unlocked),
-        alliesUnlocked: allies.map(a=>a.unlocked)
+        score,
+        ppc,
+        pps,
+        clickUpgrades: clickUpgrades.map(u => u.unlocked),
+        autoUpgrades: autoUpgrades.map(u => u.unlocked)
     };
-    localStorage.setItem("pokeClickerSave", JSON.stringify(saveData));
-    const msg = document.getElementById("saveMessage");
-    if(msg) {
-        msg.textContent = "¡Partida guardada!";
-        msg.style.color = "lightgreen";
-        setTimeout(()=>msg.textContent="",2000);
+    localStorage.setItem("pokemonClickerSave", JSON.stringify(saveData));
+}, 5000);
+
+// ==========================
+// CARGAR PARTIDA
+// ==========================
+window.addEventListener("load", () => {
+    const saved = JSON.parse(localStorage.getItem("pokemonClickerSave"));
+    if (saved) {
+        score = saved.score || 0;
+        ppc = saved.ppc || 1;
+        pps = saved.pps || 0;
+
+        saved.clickUpgrades.forEach((unlocked, i) => clickUpgrades[i].unlocked = unlocked);
+        saved.autoUpgrades.forEach((unlocked, i) => autoUpgrades[i].unlocked = unlocked);
     }
-}
-
-function loadGame() {
-    const saveData = JSON.parse(localStorage.getItem("pokeClickerSave"));
-    if(!saveData) return;
-
-    score = saveData.score;
-    ppc = saveData.ppc;
-    pps = saveData.pps;
-
-    clickUpgrades.forEach((u,i)=>u.unlocked = saveData.clickUnlocked[i]);
-    autoUpgrades.forEach((u,i)=>u.unlocked = saveData.autoUnlocked[i]);
-    allies.forEach((a,i)=>a.unlocked = saveData.alliesUnlocked[i]);
-
-    showUnlockedUpgrades();
     updateScreen();
-}
-
-function deleteSave() {
-    localStorage.removeItem("pokeClickerSave");
-    location.reload();
-}
-
-// Solo agregar eventos si los elementos existen
-const saveBtn = document.getElementById("saveGame");
-if(saveBtn) saveBtn.addEventListener("click", saveGame);
-
-const deleteBtn = document.getElementById("deleteSave");
-if(deleteBtn) deleteBtn.addEventListener("click", deleteSave);
-
-loadGame();
-setInterval(saveGame,5000); // auto-guardar
+    showUnlockedUpgrades();
+});
