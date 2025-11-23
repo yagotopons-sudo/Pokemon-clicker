@@ -2,64 +2,50 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokémon Clicker</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<h1>Pokémon Clicker</h1>
-<h2>PokéPuntos: <span id="score">0</span></h2>
+    <div class="container">
 
-<!-- Códigos secretos -->
-<div id="codesPanel" class="panel panel-purple">
-    <h2>Códigos Secretos</h2>
-    <input type="text" id="codeInput" placeholder="Introduce el código">
-    <button id="redeemCode">Canjear</button>
-    <p id="codeMessage"></p>
-</div>
+        <h1 class="title">Pokémon Clicker</h1>
 
-<div class="container">
+        <!-- PUNTOS -->
+        <p class="stats">
+            <span>Puntos: <strong id="score">0</strong></span><br>
+            <span>PPC: <strong id="ppc">1</strong></span><br>
+            <span>PPS: <strong id="pps">0</strong></span>
+        </p>
 
-    <!-- CLICK MANUAL -->
-    <div class="clicker-container">
-        <img id="pokemon" 
-            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
-        <h3>Puntos por clic: <span id="ppc">1</span></h3>
-    </div>
+        <!-- POKÉMON -->
+        <img id="pokemon" src="pokemon.png" alt="Pokémon" class="pokemon">
 
-    <!-- MEJORAS -->
-    <div class="upgrades-container">
+        <!-- MEJORAS -->
+        <h2>Mejoras Manuales</h2>
+        <div class="upgrade" id="upgrade1">+1 PPC (50)</div>
+        <div class="upgrade" id="upgrade2" style="display:none">+2 PPC (150)</div>
+        <div class="upgrade" id="upgrade3" style="display:none">+4 PPC (300)</div>
+        <div class="upgrade" id="upgrade4" style="display:none">+8 PPC (600)</div>
+        <div class="upgrade" id="upgrade5" style="display:none">+16 PPC (1500)</div>
 
-        <!-- Manuales -->
-        <div class="panel panel-blue">
-            <h2>Mejoras Manuales</h2>
-            <div id="upgrade1" class="upgrade">Mejora 1 (+1 por clic) — 50 puntos</div>
-            <div id="upgrade2" class="upgrade">Mejora 2 (+2 por clic) — 150 puntos</div>
-            <div id="upgrade3" class="upgrade">Mejora 3 (+4 por clic) — 300 puntos</div>
-            <div id="upgrade4" class="upgrade">Mejora 4 (+8 por clic) — 600 puntos</div>
-            <div id="upgrade5" class="upgrade">Mejora 5 (+16 por clic) — 1500 puntos</div>
-            <div id="upgrade6" class="upgrade">Mejora 6 (+30 por clic) — 3000 puntos</div>
-            <div id="upgrade7" class="upgrade">Mejora 7 (+60 por clic) — 8000 puntos</div>
-            <div id="upgrade8" class="upgrade">Mejora 8 (+120 por clic) — 20000 puntos</div>
-            <div id="upgrade9" class="upgrade">Mejora 9 (+250 por clic) — 40000 puntos</div>
-            <div id="upgrade10" class="upgrade">Mejora 10 (+500 por clic) — 100000 puntos</div>
-        </div>
+        <h2>Mejoras Automáticas</h2>
+        <div class="upgrade" id="auto1">+1 PPS (100)</div>
+        <div class="upgrade" id="auto2" style="display:none">+3 PPS (300)</div>
+        <div class="upgrade" id="auto3" style="display:none">+6 PPS (800)</div>
+        <div class="upgrade" id="auto4" style="display:none">+12 PPS (2000)</div>
+        <div class="upgrade" id="auto5" style="display:none">+25 PPS (5000)</div>
 
-        <!-- Automáticas -->
-        <div class="panel panel-green">
-            <h2>Click Automático</h2>
-            <h3>Puntos por segundo: <span id="pps">0</span></h3>
-            <div id="auto1" class="upgrade">Auto 1 (+1/s) — 100 puntos</div>
-            <div id="auto2" class="upgrade">Auto 2 (+3/s) — 300 puntos</div>
-            <div id="auto3" class="upgrade">Auto 3 (+6/s) — 800 puntos</div>
-            <div id="auto4" class="upgrade">Auto 4 (+12/s) — 2000 puntos</div>
-            <div id="auto5" class="upgrade">Auto 5 (+25/s) — 5000 puntos</div>
-        </div>
+        <!-- CÓDIGOS SECRETOS -->
+        <h2>Códigos Secretos</h2>
+        <input type="text" id="codeInput" placeholder="Introduce un código...">
+        <button id="redeemCode">Canjear</button>
+        <p id="codeMessage" class="message"></p>
 
     </div>
 
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
+
