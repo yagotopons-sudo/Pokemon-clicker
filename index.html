@@ -1,85 +1,121 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Pokémon Clicker</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(120deg, #ffcb05, #3b4cca);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin: 0;
+}
 
-<h1>Pokémon Clicker</h1>
+h1 { font-size: 2em; }
+h2 { font-size: 1.5em; }
 
-<!-- Mensaje introductorio -->
-<div id="introMessage" class="intro-box">
-    ¡Bienvenido a Pokémon Clicker! Haz clic en Pikachu para ganar PokéPuntos
-    y compra mejoras para avanzar.
-</div>
+/* MENSAJE INTRO */
+.intro-box {
+    background: rgba(255, 230, 150, 0.9);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 10px auto;
+    width: 80%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    transition: opacity 1s ease;
+}
 
-<h2>PokéPuntos: <span id="score">0</span></h2>
+.fade-out {
+    opacity: 0;
+}
 
-<!-- Códigos secretos -->
-<div id="codesPanel" class="panel panel-purple">
-    <h2>Códigos Secretos</h2>
-    <input type="text" id="codeInput" placeholder="Introduce el código">
-    <button id="redeemCode">Canjear</button>
-    <p id="codeMessage"></p>
-</div>
+/* CONTENEDORES */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    margin-top: 20px;
+}
 
-<div class="container">
+.clicker-container {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+}
 
-    <!-- CLICK MANUAL -->
-    <div class="clicker-container">
-        <img id="pokemon" 
-            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
-        <h3>Puntos por clic: <span id="ppc">1</span></h3>
-    </div>
+#pokemon {
+    width: 200px;
+    max-width: 80vw;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
 
-    <!-- MEJORAS -->
-    <div class="upgrades-container">
+#pokemon:active { transform: scale(0.9); }
 
-        <!-- Manuales -->
-        <div class="panel panel-blue">
-            <h2>Mejoras Manuales</h2>
-            <div id="upgrade1" class="upgrade">Mejora 1 (+1 por clic) — 50 puntos</div>
-            <div id="upgrade2" class="upgrade">Mejora 2 (+2 por clic) — 150 puntos</div>
-            <div id="upgrade3" class="upgrade">Mejora 3 (+4 por clic) — 300 puntos</div>
-            <div id="upgrade4" class="upgrade">Mejora 4 (+8 por clic) — 600 puntos</div>
-            <div id="upgrade5" class="upgrade">Mejora 5 (+16 por clic) — 1500 puntos</div>
-            <div id="upgrade6" class="upgrade">Mejora 6 (+30 por clic) — 3000 puntos</div>
-            <div id="upgrade7" class="upgrade">Mejora 7 (+60 por clic) — 8000 puntos</div>
-            <div id="upgrade8" class="upgrade">Mejora 8 (+120 por clic) — 20000 puntos</div>
-            <div id="upgrade9" class="upgrade">Mejora 9 (+250 por clic) — 40000 puntos</div>
-            <div id="upgrade10" class="upgrade">Mejora 10 (+500 por clic) — 100000 puntos</div>
-        </div>
+.upgrades-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 2;
+}
 
-        <!-- Automáticos -->
-        <div class="panel panel-green">
-            <h2>Click Automático</h2>
-            <h3>Puntos por segundo: <span id="pps">0</span></h3>
-            <div id="auto1" class="upgrade">Auto 1 (+1/s) — 100 puntos</div>
-            <div id="auto2" class="upgrade">Auto 2 (+3/s) — 300 puntos</div>
-            <div id="auto3" class="upgrade">Auto 3 (+6/s) — 800 puntos</div>
-            <div id="auto4" class="upgrade">Auto 4 (+12/s) — 2000 puntos</div>
-            <div id="auto5" class="upgrade">Auto 5 (+25/s) — 5000 puntos</div>
-            <div id="auto6" class="upgrade">Auto 6 (+40/s) — 9000 puntos</div>
-            <div id="auto7" class="upgrade">Auto 7 (+80/s) — 20000 puntos</div>
-            <div id="auto8" class="upgrade">Auto 8 (+160/s) — 50000 puntos</div>
-            <div id="auto9" class="upgrade">Auto 9 (+300/s) — 100000 puntos</div>
-            <div id="auto10" class="upgrade">Auto 10 (+600/s) — 200000 puntos</div>
-        </div>
+/* PANELES */
+.panel {
+    background: rgba(0, 0, 0, 0.35);
+    padding: 10px;
+    border-radius: 10px;
+    width: 280px;
+    max-width: 90vw;
+}
 
-        <!-- Aliados -->
-        <div class="panel panel-yellow">
-            <h2>Pokémon Aliados</h2>
-            <div id="ally1" class="ally">Pikachu: +1 clic automático — 500 puntos</div>
-            <div id="ally2" class="ally">Bulbasaur: +5 monedas/s — 1500 puntos</div>
-            <div id="ally3" class="ally">Charmander: +10 clic — 3000 puntos</div>
-        </div>
+.panel-blue { border: 3px solid #5bc0ff; }
+.panel-green { border: 3px solid #77ff77; }
+.panel-yellow { border: 3px solid #ffdd55; }
+.panel-purple { border: 3px solid #aa44ff; }
 
-    </div>
+/* OPCIONES */
+.upgrade, .ally {
+    background: rgba(0,0,0,0.5);
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+}
 
-</div>
+.upgrade:hover, .ally:hover { background: rgba(255,255,255,0.15); }
 
-<script src="script.js"></script>
-</body>
-</html>
+.disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* PANEL DE CÓDIGOS */
+#codesPanel {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 220px;
+    z-index: 1;
+    opacity: 0.8;
+}
+
+#codeInput {
+    padding: 6px;
+    width: 70%;
+    border-radius: 5px;
+    border: none;
+}
+
+#redeemCode {
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: #aa44ff;
+    color: white;
+}
+
+#redeemCode:hover { background-color: #cc66ff; }
+
+/* RESPONSIVE */
+@media screen and (max-width: 768px) {
+    .container { flex-direction: column; align-items: center; }
+    .upgrades-container { flex-direction: column; }
+}
