@@ -8,9 +8,16 @@
 <body>
 
 <h1>Pokémon Clicker</h1>
+
+<!-- Mensaje introductorio -->
+<div id="introMessage" class="intro-box">
+    ¡Bienvenido a Pokémon Clicker! Haz clic en Pikachu para ganar PokéPuntos
+    y compra mejoras para avanzar.
+</div>
+
 <h2>PokéPuntos: <span id="score">0</span></h2>
 
-<!-- Códigos secretos en tercer plano -->
+<!-- Códigos secretos -->
 <div id="codesPanel" class="panel panel-purple">
     <h2>Códigos Secretos</h2>
     <input type="text" id="codeInput" placeholder="Introduce el código">
@@ -20,7 +27,7 @@
 
 <div class="container">
 
-    <!-- CLICK MANUAL: Pokémon al centro -->
+    <!-- CLICK MANUAL -->
     <div class="clicker-container">
         <img id="pokemon" 
             src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png">
@@ -30,7 +37,7 @@
     <!-- MEJORAS -->
     <div class="upgrades-container">
 
-        <!-- Click manual -->
+        <!-- Manuales -->
         <div class="panel panel-blue">
             <h2>Mejoras Manuales</h2>
             <div id="upgrade1" class="upgrade">Mejora 1 (+1 por clic) — 50 puntos</div>
@@ -45,7 +52,7 @@
             <div id="upgrade10" class="upgrade">Mejora 10 (+500 por clic) — 100000 puntos</div>
         </div>
 
-        <!-- Click automático -->
+        <!-- Automáticos -->
         <div class="panel panel-green">
             <h2>Click Automático</h2>
             <h3>Puntos por segundo: <span id="pps">0</span></h3>
@@ -61,7 +68,7 @@
             <div id="auto10" class="upgrade">Auto 10 (+600/s) — 200000 puntos</div>
         </div>
 
-        <!-- Pokémon aliados -->
+        <!-- Aliados -->
         <div class="panel panel-yellow">
             <h2>Pokémon Aliados</h2>
             <div id="ally1" class="ally">Pikachu: +1 clic automático — 500 puntos</div>
