@@ -10,42 +10,43 @@
 
     <div class="container">
 
-        <h1 class="title">Pokémon Clicker</h1>
+        <!-- POKÉMON + PUNTOS -->
+        <div class="panel panel-main">
+            <h1>Pokémon Clicker</h1>
+            <p class="stats">
+                Puntos: <strong id="score">0</strong><br>
+                PPC: <strong id="ppc">1</strong> · PPS: <strong id="pps">0</strong>
+            </p>
+            <button id="pokemon" aria-label="Toca al Pokémon para ganar puntos">
+                <img src="pokemon.png" alt="" draggable="false">
+            </button>
+            <p class="small">Un 10% de los toques son críticos (x5)</p>
+            <p class="small">Toques: <strong id="clicks">0</strong> · Total: <strong id="total">0</strong></p>
+        </div>
 
-        <!-- PUNTOS -->
-        <p class="stats">
-            <span>Puntos: <strong id="score">0</strong></span><br>
-            <span>PPC: <strong id="ppc">1</strong></span><br>
-            <span>PPS: <strong id="pps">0</strong></span>
-        </p>
+        <!-- MEJORAS MANUALES -->
+        <div class="panel panel-blue">
+            <h2>Mejoras Manuales</h2>
+            <div id="clickShop"></div>
+        </div>
 
-        <!-- POKÉMON -->
-        <img id="pokemon" src="pokemon.png" alt="Pokémon" class="pokemon">
-
-        <!-- MEJORAS -->
-        <h2>Mejoras Manuales</h2>
-        <div class="upgrade" id="upgrade1">+1 PPC (50)</div>
-        <div class="upgrade" id="upgrade2" style="display:none">+2 PPC (150)</div>
-        <div class="upgrade" id="upgrade3" style="display:none">+4 PPC (300)</div>
-        <div class="upgrade" id="upgrade4" style="display:none">+8 PPC (600)</div>
-        <div class="upgrade" id="upgrade5" style="display:none">+16 PPC (1500)</div>
-
-        <h2>Mejoras Automáticas</h2>
-        <div class="upgrade" id="auto1">+1 PPS (100)</div>
-        <div class="upgrade" id="auto2" style="display:none">+3 PPS (300)</div>
-        <div class="upgrade" id="auto3" style="display:none">+6 PPS (800)</div>
-        <div class="upgrade" id="auto4" style="display:none">+12 PPS (2000)</div>
-        <div class="upgrade" id="auto5" style="display:none">+25 PPS (5000)</div>
+        <!-- MEJORAS AUTOMÁTICAS -->
+        <div class="panel panel-green">
+            <h2>Mejoras Automáticas</h2>
+            <div id="autoShop"></div>
+        </div>
 
         <!-- CÓDIGOS SECRETOS -->
-        <h2>Códigos Secretos</h2>
-        <input type="text" id="codeInput" placeholder="Introduce un código...">
-        <button id="redeemCode">Canjear</button>
-        <p id="codeMessage" class="message"></p>
+        <div class="panel panel-purple" id="codesPanel">
+            <h2>Códigos Secretos</h2>
+            <input type="text" id="codeInput" placeholder="Introduce un código..." autocomplete="off" spellcheck="false">
+            <button id="redeemCode">Canjear</button>
+            <p id="codeMessage" class="message" role="status" aria-live="polite"></p>
+            <button id="resetBtn">Borrar partida</button>
+        </div>
 
     </div>
 
     <script src="script.js"></script>
 </body>
 </html>
-
