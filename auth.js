@@ -3,7 +3,15 @@
 // ===============================
 // Para jugar desde varios dispositivos pega aquí tu config de Firebase (guía abajo).
 // Si lo dejas en null, las cuentas solo existen en ESTE navegador (modo prueba).
-const FIREBASE_CONFIG = null;
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyD3b1hogtsgjszfLINYE61d-0lBV-dNpf0",
+  authDomain: "pokemitas-online.firebaseapp.com",
+  projectId: "pokemitas-online",
+  storageBucket: "pokemitas-online.firebasestorage.app",
+  messagingSenderId: "330780873409",
+  appId: "1:330780873409:web:bb8e1f86e656d1d2cbba40",
+  measurementId: "G-HWHHG4F5VZ"
+};
 /* Ejemplo:
 const FIREBASE_CONFIG = {
     apiKey: "...", authDomain: "...", projectId: "...", appId: "..."
