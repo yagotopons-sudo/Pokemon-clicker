@@ -4,48 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokémon Clicker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <div class="container">
+    <header class="top">
+        <h1>Pokémon Clicker</h1>
+        <dl class="stats">
+            <div class="main"><dt>Puntos</dt><dd id="score">0</dd></div>
+            <div><dt>Por toque</dt><dd id="ppc">1</dd></div>
+            <div><dt>Por segundo</dt><dd id="pps">0</dd></div>
+            <div><dt>Bonus</dt><dd id="mult">x1</dd></div>
+        </dl>
+    </header>
 
-        <!-- POKÉMON + PUNTOS -->
-        <div class="panel panel-main">
-            <h1>Pokémon Clicker</h1>
-            <p class="stats">
-                Puntos: <strong id="score">0</strong><br>
-                PPC: <strong id="ppc">1</strong> · PPS: <strong id="pps">0</strong>
-            </p>
-            <button id="pokemon" aria-label="Toca al Pokémon para ganar puntos">
-                <img src="pokemon.png" alt="" draggable="false">
-            </button>
-            <p class="small">Un 10% de los toques son críticos (x5)</p>
-            <p class="small">Toques: <strong id="clicks">0</strong> · Total: <strong id="total">0</strong></p>
-        </div>
+    <main class="layout">
 
         <!-- MEJORAS MANUALES -->
-        <div class="panel panel-blue">
-            <h2>Mejoras Manuales</h2>
-            <div id="clickShop"></div>
-        </div>
+        <aside class="panel panel-blue">
+            <h2>Mejoras manuales</h2>
+            <div id="clickShop" class="list"></div>
+        </aside>
+
+        <!-- ARENA -->
+        <section class="arena">
+            <div class="stage" id="stage">
+                <div class="glow"></div>
+                <button id="pokemon" aria-label="Toca al Pokémon para ganar puntos">
+                    <img id="pokeImg" alt="" draggable="false">
+                </button>
+                <div class="shadow"></div>
+            </div>
+
+            <h2 id="pokeName" class="poke-name">Pichu</h2>
+
+            <div class="evo">
+                <div class="bar"><div id="evoFill"></div></div>
+                <p id="evoText">Evolución</p>
+            </div>
+
+            <div id="team" class="team"></div>
+
+            <p class="small">Toques: <strong id="clicks">0</strong> · Total ganado: <strong id="total">0</strong></p>
+            <p class="small">10% de críticos (x5). Pulsa espacio para tocar.</p>
+        </section>
 
         <!-- MEJORAS AUTOMÁTICAS -->
-        <div class="panel panel-green">
-            <h2>Mejoras Automáticas</h2>
-            <div id="autoShop"></div>
-        </div>
+        <aside class="panel panel-green">
+            <h2>Equipo automático</h2>
+            <div id="autoShop" class="list"></div>
+        </aside>
 
-        <!-- CÓDIGOS SECRETOS -->
-        <div class="panel panel-purple" id="codesPanel">
-            <h2>Códigos Secretos</h2>
+    </main>
+
+    <!-- CÓDIGOS SECRETOS -->
+    <section class="panel panel-purple codes">
+        <h2>Códigos secretos</h2>
+        <div class="code-row">
             <input type="text" id="codeInput" placeholder="Introduce un código..." autocomplete="off" spellcheck="false">
             <button id="redeemCode">Canjear</button>
-            <p id="codeMessage" class="message" role="status" aria-live="polite"></p>
-            <button id="resetBtn">Borrar partida</button>
         </div>
+        <p id="codeMessage" class="message" role="status" aria-live="polite"></p>
+        <button id="resetBtn">Borrar partida</button>
+    </section>
 
-    </div>
+    <div id="toasts" aria-live="polite"></div>
 
     <script src="script.js"></script>
 </body>
