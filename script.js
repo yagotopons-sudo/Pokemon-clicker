@@ -34,7 +34,6 @@ const COSTE_CRECIENTE = 1.15;
 const CRIT_CHANCE = 0.10;
 const CRIT_MULT = 5;
 const MAX_OFFLINE_HORAS = 8;
-const SAVE_KEY = "pokemonSave2";
 
 const CODES = {
     "PIKACHU": 5000,
@@ -352,35 +351,32 @@ $("redeemCode").addEventListener("click", redeem);
 codeInput.addEventListener("keydown", e => { if (e.key === "Enter") redeem(); });
 
 // ===============================
-// GUARDADO
+// GUARDADO (local + nube, lo gestiona auth.js)
 // ===============================
 let resetting = false;
+let playing = false;
 
-function save() {
-    if (resetting) return;
+function save(force) {
+    if (resetting || !playing) return;
     state.last = Date.now();
-    try { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); } catch (e) {}
+    Auth.saveSave(state, force);
 }
 
-setInterval(save, 5000);
-window.addEventListener("beforeunload", save);
-document.addEventListener("visibilitychange", () => { if (document.hidden) save(); });
+setInterval(() => save(), 5000);
+window.addEventListener("beforeunload", () => save(true));
+document.addEventListener("visibilitychange", () => { if (document.hidden) save(true); });
 
-$("resetBtn").addEventListener("click", () => {
+$("resetBtn").addEventListener("click", async () => {
     if (!confirm("¿Seguro que quieres borrar toda tu partida?")) return;
     resetting = true;
-    localStorage.removeItem(SAVE_KEY);
-    localStorage.removeItem("pokemonSave");
+    await Auth.deleteSave();
     location.reload();
 });
 
 // ===============================
-// CARGA (con migración del guardado antiguo)
+// CARGA
 // ===============================
-function load() {
-    let data = null;
-    try { data = JSON.parse(localStorage.getItem(SAVE_KEY)); } catch (e) {}
-
+function load(data) {
     if (data) {
         state.score = data.score || 0;
         state.total = data.total || 0;
@@ -392,26 +388,37 @@ function load() {
         return;
     }
 
+    // Partida de antes de las cuentas: se aprovecha una sola vez
+    let prev = null;
+    try { prev = JSON.parse(localStorage.getItem("pokemonSave2")); } catch (e) {}
+    if (prev) { localStorage.removeItem("pokemonSave2"); return load(prev); }
+
     let old = null;
     try { old = JSON.parse(localStorage.getItem("pokemonSave")); } catch (e) {}
-    if (old) {
-        state.score = old.score || 0;
-        state.total = state.score;
-        state.click = CLICK_UPGRADES.map((_, i) => (old.clickUnlocks && old.clickUnlocks[i + 1] ? 1 : 0));
-        state.auto = AUTO_UPGRADES.map((_, i) => (old.autoUnlocks && old.autoUnlocks[i + 1] ? 1 : 0));
+    if (!old) return;
+    state.score = old.score || 0;
+    state.total = state.score;
+    state.click = CLICK_UPGRADES.map((_, i) => (old.clickUnlocks && old.clickUnlocks[i + 1] ? 1 : 0));
+    state.auto = AUTO_UPGRADES.map((_, i) => (old.autoUnlocks && old.autoUnlocks[i + 1] ? 1 : 0));
+    localStorage.removeItem("pokemonSave");
+}
+
+// ===============================
+// ARRANQUE: el juego empieza cuando el jugador ha iniciado sesión
+// ===============================
+Auth.start((data) => {
+    load(data);
+
+    // Progreso mientras estabas fuera
+    const secondsAway = Math.min((Date.now() - state.last) / 1000, MAX_OFFLINE_HORAS * 3600);
+    if (secondsAway > 10 && getPps() > 0) {
+        const offline = getPps() * secondsAway;
+        state.score += offline;
+        state.total += offline;
+        toast(`Mientras no estabas: +${fmt(offline)} puntos`);
     }
-}
 
-load();
-
-// Progreso mientras estabas fuera
-const secondsAway = Math.min((Date.now() - state.last) / 1000, MAX_OFFLINE_HORAS * 3600);
-if (secondsAway > 10 && getPps() > 0) {
-    const offline = getPps() * secondsAway;
-    state.score += offline;
-    state.total += offline;
-    toast(`Mientras no estabas: +${fmt(offline)} puntos`);
-}
-
-update();
-ready = true;   // a partir de ahora sí se avisa de desbloqueos y evoluciones
+    update();
+    ready = true;     // a partir de ahora sí se avisa de desbloqueos y evoluciones
+    playing = true;
+});
