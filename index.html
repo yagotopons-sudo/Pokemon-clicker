@@ -10,7 +10,14 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
+<div id="profile" class="profile" hidden>
+    <button id="avatarBtn" class="avatar" aria-label="Cambiar entrenador"><img id="avatarImg" alt="" draggable="false"></button>
+    <div class="who">
+        <b id="pName">Entrenador</b>
+        <span id="pId">ID: #........</span>
+    </div>
+    <button id="logoutBtn">Salir</button>
+</div>
     <header class="top">
         <h1>Pokémon Clicker</h1>
         <dl class="stats">
@@ -70,9 +77,46 @@
         <p id="codeMessage" class="message" role="status" aria-live="polite"></p>
         <button id="resetBtn">Borrar partida</button>
     </section>
+<!-- REGISTRO / LOGIN -->
+<div id="authScreen" class="overlay" hidden>
+    <form id="authForm" class="auth-card panel panel-purple">
+        <h2>Pokémon Clicker</h2>
+        <div class="tabs">
+            <button type="button" id="tabLogin" class="on">Entrar</button>
+            <button type="button" id="tabRegister">Registrarse</button>
+        </div>
 
+        <div id="regOnly" hidden>
+            <label>Nombre de entrenador
+                <input id="authName" maxlength="14" autocomplete="nickname">
+            </label>
+            <p class="lbl">Elige tu entrenador</p>
+            <div id="regPicker" class="picker"></div>
+        </div>
+
+        <label><span id="authUserLabel">Correo electrónico</span>
+            <input id="authUser" autocomplete="username" spellcheck="false">
+        </label>
+        <label>Contraseña
+            <input id="authPass" type="password" autocomplete="current-password">
+        </label>
+
+        <p id="authMsg" class="message" role="alert"></p>
+        <button id="authSubmit" class="primary">Entrar</button>
+        <p id="authNote" class="small">Modo prueba: tu cuenta solo existe en este navegador.</p>
+    </form>
+</div>
+
+<!-- CAMBIAR ENTRENADOR -->
+<div id="pickModal" class="overlay" hidden>
+    <div class="auth-card panel panel-blue">
+        <h2>Elige tu entrenador</h2>
+        <div id="modalPicker" class="picker"></div>
+        <button id="pickClose" class="primary">Listo</button>
+    </div>
+</div>
     <div id="toasts" aria-live="polite"></div>
-
-    <script src="script.js"></script>
+<script src="auth.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
