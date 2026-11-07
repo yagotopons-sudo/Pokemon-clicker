@@ -9,8 +9,8 @@ const item = n  => `${SPR}items/${n}.png`;
 // Evoluciones: se activan al llegar a "at" puntos ganados en total. "mult" multiplica todo.
 const EVOLUTIONS = [
     { name: "Pichu",   id: 172, at: 0,       mult: 1 },
-    { name: "Pikachu", id: 25,  at: 5000,    mult: 1.5 },
-    { name: "Raichu",  id: 26,  at: 250000,  mult: 3 },
+    { name: "Pikachu", id: 25,  at: 500000,    mult: 1.5 },
+    { name: "Raichu",  id: 26,  at: 25000000,  mult: 3 },
 ];
 
 // Mejoras manuales (PPC): cada una se desbloquea al comprar la anterior
