@@ -3,7 +3,14 @@
 // ===============================
 // Para jugar desde varios dispositivos pega aquí tu config de Firebase.
 // Si lo dejas en null, las cuentas solo existen en ESTE navegador (modo prueba).
-const FIREBASE_CONFIG = null;
+const FIREBASE_CONFIG = {
+    apiKey: "AIzaSy...",
+    authDomain: "tu-proyecto.firebaseapp.com",
+    projectId: "tu-proyecto",
+    storageBucket: "tu-proyecto.firebasestorage.app",
+    messagingSenderId: "123456789012",
+    appId: "1:123456789012:web:abcdef123456"
+};
 /* Ejemplo:
 const FIREBASE_CONFIG = {
     apiKey: "...", authDomain: "...", projectId: "...", appId: "..."
